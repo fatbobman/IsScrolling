@@ -21,7 +21,7 @@ public extension View {
     }
 
     func scrollSensor(_ axis: Axis = .vertical) -> some View {
-        background(
+        overlay(
             GeometryReader { proxy in
                 Color.clear
                     .preference(
@@ -39,9 +39,12 @@ struct ScrollStatusMonitorExclusionModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .environment(\.isScrolling, store.isScrolling)
-            .valueChanged(value: store.isScrolling, onChange: { value in
+            .onChange(of: store.isScrolling) { value in
                 isScrolling = value
-            })
+            }
+            .onDisappear {
+                store.cancellable = nil
+            }
     }
 }
 
@@ -62,7 +65,7 @@ final class ExclusionStore: ObservableObject {
             )
     }
 
-    private var cancellable: AnyCancellable?
+    var cancellable: AnyCancellable?
 
     init() {
         cancellable = publisher
@@ -84,11 +87,14 @@ struct ScrollStatusMonitorCommonModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .environment(\.isScrolling, store.isScrolling)
-            .valueChanged(value: store.isScrolling, onChange: { value in
+            .onChange(of: store.isScrolling) { value in
                 isScrolling = value
-            })
+            }
             .onPreferenceChange(MinValueKey.self) { _ in
                 store.preferencePublisher.send(Date().timeIntervalSince1970)
+            }
+            .onDisappear {
+                store.cancellable = nil
             }
     }
 }
@@ -97,7 +103,7 @@ final class CommonStore: ObservableObject {
     @Published var isScrolling = false
     private var timestamp: TimeInterval = 0
 
-    private let idlePublisher = Timer.publish(every: 0.1, on: .main, in: .default).autoconnect()
+    private let idlePublisher = Timer.publish(every: 0.2, on: .main, in: .default).autoconnect()
     let preferencePublisher = PassthroughSubject<TimeInterval, Never>()
 
     private var publisher: some Publisher {
@@ -111,7 +117,7 @@ final class CommonStore: ObservableObject {
             )
     }
 
-    private var cancellable: AnyCancellable?
+    var cancellable: AnyCancellable?
 
     init() {
         cancellable = publisher
@@ -124,8 +130,10 @@ final class CommonStore: ObservableObject {
                 }
 
                 if timestamp != self.timestamp,!self.isScrolling {
+                    print("set to true")
                     self.isScrolling = true
                 } else if timestamp == self.timestamp, self.isScrolling {
+                    print("set to false")
                     self.isScrolling = false
                 }
                 self.timestamp = timestamp
@@ -140,7 +148,7 @@ public enum ScrollStatusMonitorMode {
     /// But only for scenarios where there is only one scrollable component in the screen
     case exclusion
 
-    /// This mode should be selected when there are multiple scrollable parts in the scene.
+    /// This mode should be used when there are multiple scrollable parts in the scene.
     ///
     /// The accuracy and timeliness are slightly inferior to the exclusion mode.
     /// When using this mode, a **scroll sensor** must be added to the subview of the scroll widget.
