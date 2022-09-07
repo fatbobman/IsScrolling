@@ -45,15 +45,3 @@ struct CellView: View {
             .overlay(Text("ID: \(index) Scrolling: \(isScrolling ? "T" : "F")"))
     }
 }
-
-struct LazyVStackDemo: View {
-    var body: some View {
-        Text("")
-    }
-}
-
-struct ListDemo: View {
-    var body: some View {
-        Text("")
-    }
-}
