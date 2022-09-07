@@ -130,10 +130,8 @@ final class CommonStore: ObservableObject {
                 }
 
                 if timestamp != self.timestamp,!self.isScrolling {
-                    print("set to true")
                     self.isScrolling = true
                 } else if timestamp == self.timestamp, self.isScrolling {
-                    print("set to false")
                     self.isScrolling = false
                 }
                 self.timestamp = timestamp
