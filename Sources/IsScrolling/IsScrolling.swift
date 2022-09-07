@@ -148,8 +148,9 @@ public enum ScrollStatusMonitorMode {
 
     /// This mode should be used when there are multiple scrollable parts in the scene.
     ///
-    /// The accuracy and timeliness are slightly inferior to the exclusion mode.
-    /// When using this mode, a **scroll sensor** must be added to the subview of the scroll widget.
-    /// When the scrolling view enters the rebound state, if user stop scrolling at this point, the scrolling state may be jittery (usually only once)
+    /// * The accuracy and timeliness are slightly inferior to the exclusion mode.
+    /// * When using this mode, a **scroll sensor** must be added to the subview of the scroll widget.
+    /// * When the scrolling view enters the rebound state, if user stop scrolling at this point, the scrolling state may be jittery (usually only once)
+    /// * When monitoring multiple scrollable components, if more than one component is scrolling at the same time, it will only turn into a stopped state when **all scrolling components are stopped**
     case common
 }
