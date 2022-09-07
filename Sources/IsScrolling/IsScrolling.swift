@@ -14,10 +14,22 @@ public extension View {
     func scrollStatusMonitor(_ isScrolling: Binding<Bool>, monitorMode: ScrollStatusMonitorMode) -> some View {
         switch monitorMode {
         case .common:
-            background(Text(""))
+            modifier(ScrollStatusMonitorCommonModifier(isScrolling: isScrolling))
         case .exclusion:
             modifier(ScrollStatusMonitorExclusionModifier(isScrolling: isScrolling))
         }
+    }
+
+    func scrollSensor(_ axis: Axis = .vertical) -> some View {
+        background(
+            GeometryReader { proxy in
+                Color.clear
+                    .preference(
+                        key: MinValueKey.self,
+                        value: axis == .vertical ? proxy.frame(in: .global).minY : proxy.frame(in: .global).minX
+                    )
+            }
+        )
     }
 }
 
