@@ -15,7 +15,7 @@ public extension View {
         switch monitorMode {
         case .common:
             modifier(ScrollStatusMonitorCommonModifier(isScrolling: isScrolling))
-        #if !os(macOS) && TARGET_OS_MACCATALYST
+        #if !os(macOS) && !targetEnvironment(macCatalyst)
         case .exclusion:
             modifier(ScrollStatusMonitorExclusionModifier(isScrolling: isScrolling))
         #endif
@@ -35,7 +35,7 @@ public extension View {
     }
 }
 
-#if !os(macOS) && TARGET_OS_MACCATALYST
+#if !os(macOS) && !targetEnvironment(macCatalyst)
 struct ScrollStatusMonitorExclusionModifier: ViewModifier {
     @StateObject private var store = ExclusionStore()
     @Binding var isScrolling: Bool
@@ -117,7 +117,7 @@ final class CommonStore: ObservableObject {
                     // Ensure that when multiple scrolling components are scrolling at the same time,
                     // the stop state of each can still be obtained individually
                     self.timestamp = Date()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                         if Date().timeIntervalSince(self.timestamp) > 0.1 {
                             self.timeoutPublisher.send(0)
                         }
@@ -146,7 +146,7 @@ final class CommonStore: ObservableObject {
 
 /// Monitoring mode for scroll status
 public enum ScrollStatusMonitorMode {
-    #if !os(macOS) && TARGET_OS_MACCATALYST
+    #if !os(macOS) && !targetEnvironment(macCatalyst)
     /// The judgment of the start and end of scrolling is more accurate and timely. ( iOS only )
     ///
     /// But only for scenarios where there is only one scrollable component in the screen

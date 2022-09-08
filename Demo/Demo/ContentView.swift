@@ -13,24 +13,24 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                #if !os(macOS) && TARGET_OS_MACCATALYST
+                #if !os(macOS) && !targetEnvironment(macCatalyst)
                 NavigationLink("VStack - Exclusion") { VStackExclusionDemo() }
                 #endif
 
                 NavigationLink("VStack - Common") { VStackCommonDemo() }
-                #if !os(macOS) && TARGET_OS_MACCATALYST
+                #if !os(macOS) && !targetEnvironment(macCatalyst)
                 NavigationLink("LazyVStack - Exclusion") { LazyVStackExclusionDemo() }
                 #endif
 
                 NavigationLink("LazyVStack - Common") { LazyVStackCommonDemo() }
 
-                #if !os(macOS) && TARGET_OS_MACCATALYST
+                #if !os(macOS) && !targetEnvironment(macCatalyst)
                 NavigationLink("List - Exclusion") { ListExclusionDemo() }
                 #endif
 
                 NavigationLink("List - Common") { ListCommonDemo() }
 
-                #if !os(macOS) && TARGET_OS_MACCATALYST
+                #if !os(macOS) && !targetEnvironment(macCatalyst)
                 NavigationLink("HStack - Exclusion") { HStackExclusionDemo() }
                 #endif
 

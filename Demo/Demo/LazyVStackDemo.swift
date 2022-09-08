@@ -9,7 +9,7 @@ import Foundation
 import IsScrolling
 import SwiftUI
 
-#if !os(macOS) && TARGET_OS_MACCATALYST
+#if !os(macOS) && !targetEnvironment(macCatalyst)
 struct LazyVStackExclusionDemo: View {
     @State var isScrolling = false
     var body: some View {
