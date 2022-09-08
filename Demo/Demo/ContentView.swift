@@ -13,13 +13,27 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
+                #if !os(macOS) && TARGET_OS_MACCATALYST
                 NavigationLink("VStack - Exclusion") { VStackExclusionDemo() }
+                #endif
+
                 NavigationLink("VStack - Common") { VStackCommonDemo() }
+                #if !os(macOS) && TARGET_OS_MACCATALYST
                 NavigationLink("LazyVStack - Exclusion") { LazyVStackExclusionDemo() }
+                #endif
+
                 NavigationLink("LazyVStack - Common") { LazyVStackCommonDemo() }
+
+                #if !os(macOS) && TARGET_OS_MACCATALYST
                 NavigationLink("List - Exclusion") { ListExclusionDemo() }
+                #endif
+
                 NavigationLink("List - Common") { ListCommonDemo() }
+
+                #if !os(macOS) && TARGET_OS_MACCATALYST
                 NavigationLink("HStack - Exclusion") { HStackExclusionDemo() }
+                #endif
+
                 NavigationLink("HStack - Common") { HStackCommonDemo() }
                 NavigationLink("MultiMonitor - Common") { MultiScrollableComponentsDemo() }
             }

@@ -9,6 +9,7 @@ import Foundation
 import IsScrolling
 import SwiftUI
 
+#if !os(macOS) && TARGET_OS_MACCATALYST
 struct VStackExclusionDemo: View {
     @State var isScrolling = false
     var body: some View {
@@ -32,6 +33,7 @@ struct VStackExclusionDemo: View {
         }
     }
 }
+#endif
 
 struct VStackCommonDemo: View {
     @State var isScrolling = false

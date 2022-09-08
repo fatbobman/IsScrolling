@@ -15,8 +15,10 @@ public extension View {
         switch monitorMode {
         case .common:
             modifier(ScrollStatusMonitorCommonModifier(isScrolling: isScrolling))
+        #if !os(macOS) && TARGET_OS_MACCATALYST
         case .exclusion:
             modifier(ScrollStatusMonitorExclusionModifier(isScrolling: isScrolling))
+        #endif
         }
     }
 
@@ -33,6 +35,7 @@ public extension View {
     }
 }
 
+#if !os(macOS) && TARGET_OS_MACCATALYST
 struct ScrollStatusMonitorExclusionModifier: ViewModifier {
     @StateObject private var store = ExclusionStore()
     @Binding var isScrolling: Bool
@@ -79,6 +82,7 @@ final class ExclusionStore: ObservableObject {
             })
     }
 }
+#endif
 
 struct ScrollStatusMonitorCommonModifier: ViewModifier {
     @StateObject private var store = CommonStore()
@@ -102,12 +106,12 @@ final class CommonStore: ObservableObject {
     @Published var isScrolling = false
     private var timestamp = Date()
 
-    private let idlePublisher = Timer.publish(every: 0.1, on: .main, in: .default).autoconnect()
     let preferencePublisher = PassthroughSubject<Int, Never>()
     let timeoutPublisher = PassthroughSubject<Int, Never>()
 
     private var publisher: some Publisher {
         preferencePublisher
+            .dropFirst(2)
             .handleEvents(
                 receiveOutput: { _ in
                     // Ensure that when multiple scrolling components are scrolling at the same time,
@@ -119,10 +123,6 @@ final class CommonStore: ObservableObject {
                         }
                     }
                 }
-            )
-            .merge(with:
-                idlePublisher
-                    .map { _ in 0 }
             )
             .merge(with: timeoutPublisher)
     }
@@ -146,11 +146,12 @@ final class CommonStore: ObservableObject {
 
 /// Monitoring mode for scroll status
 public enum ScrollStatusMonitorMode {
-    /// The judgment of the start and end of scrolling is more accurate and timely.
+    #if !os(macOS) && TARGET_OS_MACCATALYST
+    /// The judgment of the start and end of scrolling is more accurate and timely. ( iOS only )
     ///
     /// But only for scenarios where there is only one scrollable component in the screen
     case exclusion
-
+    #endif
     /// This mode should be used when there are multiple scrollable parts in the scene.
     ///
     /// * The accuracy and timeliness are slightly inferior to the exclusion mode.
