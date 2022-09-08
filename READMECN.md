@@ -2,17 +2,15 @@
 
 ![](https://img.shields.io/badge/Platform%20Compatibility-iOS%20|%20macOS%20|%20macCatalyst-red)
 
-[中文版说明](https://github.com/fatbobman/IsScrolling/blob/main/READMECN.md)
+正如名称所示，IsScrolling 提供了一个 ViewModifier ，用来获取 SwiftUI 中 ScrollView 或 List 当前的滚动状态。由于完全采用了 SwiftUI 原生的方式实现此功能，因此 IsScrolling 具备了很好的前后兼容性。
 
-As the name suggests, IsScrolling provides a ViewModifier to get the current scrolling state of a ScrollView or List in SwiftUI. IsScrolling has good backward and forward compatibility since it is fully implemented natively in SwiftUI.
+## 使用方法
 
-## Usage
-
-IsScrolling has two modes, each based on a different implementation principle:
+IsScrolling 拥有两种模式，它们分别基于了不同的实现原理：
 
 * exclusion
 
-  Supports iOS only, no need to add sensors to the views of scrollable component, only one scrollable component in the screen
+  仅支持 iOS ，无需为滚动视图添加 sensor ，屏幕中仅能有一个可滚动组件
 
 ```swift
 struct VStackExclusionDemo: View {
@@ -45,7 +43,7 @@ struct CellView: View {
 
 * common
 
-  Available for all platforms, monitors multiple scrollable components in the screen at the same time, requires sensor to be added to the views of scrollable component.
+  适用于全部平台，可同时监控屏幕中的多个可滚动组件，需要为视图添加 sensor
 
 ```swift
 struct ListCommonDemo: View {
@@ -64,13 +62,13 @@ struct ListCommonDemo: View {
 }
 ```
 
-For combinations like ScrollView + VStack (HStack), just add one scrollSensor to the scrollable view. For combinations like List, ScrollView + LazyVStack (LazyHStack), you need to add a scrollSensor for each child view.
+对于 ScrollView + VStack（ HStack ）这类的组合，只需为可滚动视图添加一个 scrollSensor 即可。对于 List、ScrollView + LazyVStack（ LazyHStack ）这类的组合，需要为每个子视图都添加一个 scrollSensor。
 
-When the ScrollView is scrolling horizontally, you need to set the axis parameter of scrollSensor to horizontal.
+当 ScrollView 为横向滚动时，需要将 scrollSensor 的 axis 参数设置为 horizontal
 
-For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
+详细内容，请查看 [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
 
-## Requirements
+## 需求
 
 ```
 .iOS(.v14),
@@ -80,7 +78,7 @@ For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/m
 .macCatalyst(.v14),
 ```
 
-## Installation
+## 安装
 
 ```
 dependencies: [
@@ -88,6 +86,6 @@ dependencies: [
 ]
 ```
 
-## License
+## 版权
 
 This library is released under the MIT license. See [LICENSE](https://github.com/fatbobman/IsScrolling/blob/main/LICENSE) for details.
