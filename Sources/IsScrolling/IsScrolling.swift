@@ -56,12 +56,10 @@ final class ExclusionStore: ObservableObject {
 
     private var publisher: some Publisher {
         scrollingPublisher
-            .map { $0.timeIntervalSince1970 }
+            .map { _ in 1 }
             .merge(with:
                 idlePublisher
-                    .map { _ in
-                        0
-                    }
+                    .map { _ in 0 }
             )
     }
 
@@ -71,10 +69,11 @@ final class ExclusionStore: ObservableObject {
         cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { output in
-                guard let timestamp = output as? TimeInterval else { return }
-                if timestamp != 0,!self.isScrolling {
+                guard let value = output as? Int else { return }
+                if value == 1,!self.isScrolling {
                     self.isScrolling = true
-                } else if timestamp == 0, self.isScrolling {
+                }
+                if value == 0, self.isScrolling {
                     self.isScrolling = false
                 }
             })
@@ -91,7 +90,7 @@ struct ScrollStatusMonitorCommonModifier: ViewModifier {
                 isScrolling = value
             }
             .onPreferenceChange(MinValueKey.self) { _ in
-                store.preferencePublisher.send(Date().timeIntervalSince1970)
+                store.preferencePublisher.send(1)
             }
             .onDisappear {
                 store.cancellable = nil
@@ -101,20 +100,31 @@ struct ScrollStatusMonitorCommonModifier: ViewModifier {
 
 final class CommonStore: ObservableObject {
     @Published var isScrolling = false
-    private var timestamp: TimeInterval = 0
+    private var timestamp = Date()
 
-    private let idlePublisher = Timer.publish(every: 0.2, on: .main, in: .default).autoconnect()
-    let preferencePublisher = PassthroughSubject<TimeInterval, Never>()
+    private let idlePublisher = Timer.publish(every: 0.1, on: .main, in: .default).autoconnect()
+    let preferencePublisher = PassthroughSubject<Int, Never>()
+    let timeoutPublisher = PassthroughSubject<Int, Never>()
 
     private var publisher: some Publisher {
         preferencePublisher
-            .removeDuplicates()
+            .handleEvents(
+                receiveOutput: { _ in
+                    // Ensure that when multiple scrolling components are scrolling at the same time,
+                    // the stop state of each can still be obtained individually
+                    self.timestamp = Date()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        if Date().timeIntervalSince(self.timestamp) > 0.1 {
+                            self.timeoutPublisher.send(0)
+                        }
+                    }
+                }
+            )
             .merge(with:
                 idlePublisher
-                    .map { _ in
-                        self.timestamp
-                    }
+                    .map { _ in 0 }
             )
+            .merge(with: timeoutPublisher)
     }
 
     var cancellable: AnyCancellable?
@@ -123,18 +133,13 @@ final class CommonStore: ObservableObject {
         cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { output in
-                guard let timestamp = output as? TimeInterval else { return }
-                guard self.timestamp != 0 else {
-                    self.timestamp = timestamp
-                    return
-                }
-
-                if timestamp != self.timestamp,!self.isScrolling {
+                guard let value = output as? Int else { return }
+                if value == 1,!self.isScrolling {
                     self.isScrolling = true
-                } else if timestamp == self.timestamp, self.isScrolling {
+                }
+                if value == 0, self.isScrolling {
                     self.isScrolling = false
                 }
-                self.timestamp = timestamp
             })
     }
 }
@@ -150,7 +155,5 @@ public enum ScrollStatusMonitorMode {
     ///
     /// * The accuracy and timeliness are slightly inferior to the exclusion mode.
     /// * When using this mode, a **scroll sensor** must be added to the subview of the scroll widget.
-    /// * When the scrolling view enters the rebound state, if user stop scrolling at this point, the scrolling state may be jittery (usually only once)
-    /// * When monitoring multiple scrollable components, if more than one component is scrolling at the same time, it will only turn into a stopped state when **all scrolling components are stopped**
     case common
 }
