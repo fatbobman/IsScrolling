@@ -6,6 +6,10 @@
 
 As the name suggests, IsScrolling provides a ViewModifier to get the current scrolling state of a ScrollView or List in SwiftUI. IsScrolling has good backward and forward compatibility since it is fully implemented natively in SwiftUI.
 
+## Motivation
+
+When I was developing [SwipeCell](https://github.com/fatbobman/SwipeCell) two years ago, I needed to close the opened side-swipe menu when the scrollable component (ScrollView, List) started scrolling. This was achieved by injecting a Delegate into the scrollable component via [Introspect](https://github.com/siteline/SwiftUI-Introspect.git), and I've been planning to replace this with a more native solution. 
+
 ## Usage
 
 IsScrolling has two modes, each based on a different implementation principle:
@@ -69,6 +73,13 @@ For combinations like ScrollView + VStack (HStack), just add one scrollSensor to
 When the ScrollView is scrolling horizontally, you need to set the axis parameter of scrollSensor to horizontal.
 
 For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
+
+## Limitations and shortcomings
+
+No matter which monitoring mode IsScrolling provides, it cannot be 100% accurate. After all, IsScrolling inferred the current scrolling state of a scrollable component from certain external phenomena. Known issues are.
+
+* When the scrolling content is at the top or bottom of the container and in a bouncy state, clicking on it to stop scrolling and then releasing it may result in a perturbation of the scrolling state (the state changes rapidly once)
+* When the content of a scrollable component has a non-scrolling change in size or position (e.g. a view in a list has an animated change in size), IsScrolling may mistakenly determine that scrolling has occurred, but the state will revert to the end of scrolling as soon as the change in the view is over
 
 ## Requirements
 
