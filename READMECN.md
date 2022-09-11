@@ -57,7 +57,7 @@ struct ListCommonDemo: View {
             List {
                 ForEach(0..<100) { i in
                     CellView(index: i)
-                        .scrollSensor(.vertical) // Need to add sensor for each subview
+                        .scrollSensor() // Need to add sensor for each subview
                 }
             }
             .scrollStatusMonitor($isScrolling, monitorMode: .common)
@@ -67,8 +67,6 @@ struct ListCommonDemo: View {
 ```
 
 对于 ScrollView + VStack（ HStack ）这类的组合，只需为可滚动视图添加一个 scrollSensor 即可。对于 List、ScrollView + LazyVStack（ LazyHStack ）这类的组合，需要为每个子视图都添加一个 scrollSensor。
-
-当 ScrollView 为横向滚动时，需要将 scrollSensor 的 axis 参数设置为 horizontal
 
 详细内容，请查看 [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
 

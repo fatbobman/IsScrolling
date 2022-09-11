@@ -36,6 +36,9 @@ struct ContentView: View {
 
                 NavigationLink("HStack - Common") { HStackCommonDemo() }
                 NavigationLink("MultiMonitor - Common") { MultiScrollableComponentsDemo() }
+                NavigationLink("Scroll In Any Direction") {
+                    ScrollInAnyDirectionDemo()
+                }
             }
         }
     }

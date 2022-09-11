@@ -59,7 +59,7 @@ struct ListCommonDemo: View {
             List {
                 ForEach(0..<100) { i in
                     CellView(index: i)
-                        .scrollSensor(.vertical) // Need to add sensor for each subview
+                        .scrollSensor() // Need to add sensor for each subview
                 }
             }
             .scrollStatusMonitor($isScrolling, monitorMode: .common)
@@ -69,8 +69,6 @@ struct ListCommonDemo: View {
 ```
 
 For combinations like ScrollView + VStack (HStack), just add one scrollSensor to the scrollable view. For combinations like List, ScrollView + LazyVStack (LazyHStack), you need to add a scrollSensor for each child view.
-
-When the ScrollView is scrolling horizontally, you need to set the axis parameter of scrollSensor to horizontal.
 
 For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
 
