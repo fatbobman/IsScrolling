@@ -12,7 +12,7 @@
 		7625789E28C8863000D2F2C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7625789B28C8863000D2F2C9 /* ContentView.swift */; };
 		7625789F28C8863000D2F2C9 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7625789C28C8863000D2F2C9 /* DemoApp.swift */; };
 		762578A028C8863000D2F2C9 /* VStackDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7625789D28C8863000D2F2C9 /* VStackDemo.swift */; };
-		762578A528C8867700D2F2C9 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 762578A428C8867700D2F2C9 /* IsScrolling */; };
+		7662DF3728CD893D004D2FC6 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 7662DF3628CD893D004D2FC6 /* IsScrolling */; };
 		76BB8AC528C890F90079BC8C /* LazyVStackDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB8AC428C890F90079BC8C /* LazyVStackDemo.swift */; };
 		76BB8AC728C891BE0079BC8C /* ListDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB8AC628C891BE0079BC8C /* ListDemo.swift */; };
 		76BB8AC928C892850079BC8C /* HStackDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB8AC828C892850079BC8C /* HStackDemo.swift */; };
@@ -26,7 +26,7 @@
 		7625789B28C8863000D2F2C9 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7625789C28C8863000D2F2C9 /* DemoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 		7625789D28C8863000D2F2C9 /* VStackDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VStackDemo.swift; sourceTree = "<group>"; };
-		762578A228C8864300D2F2C9 /* IsScrolling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = IsScrolling; path = ..; sourceTree = "<group>"; };
+		7662DF3528CD8926004D2FC6 /* IsScrolling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = IsScrolling; path = ..; sourceTree = "<group>"; };
 		76BB8AC428C890F90079BC8C /* LazyVStackDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyVStackDemo.swift; sourceTree = "<group>"; };
 		76BB8AC628C891BE0079BC8C /* ListDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemo.swift; sourceTree = "<group>"; };
 		76BB8AC828C892850079BC8C /* HStackDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackDemo.swift; sourceTree = "<group>"; };
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				762578A528C8867700D2F2C9 /* IsScrolling in Frameworks */,
+				7662DF3728CD893D004D2FC6 /* IsScrolling in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +92,7 @@
 		762578A128C8864300D2F2C9 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				762578A228C8864300D2F2C9 /* IsScrolling */,
+				7662DF3528CD8926004D2FC6 /* IsScrolling */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 			);
 			name = Demo;
 			packageProductDependencies = (
-				762578A428C8867700D2F2C9 /* IsScrolling */,
+				7662DF3628CD893D004D2FC6 /* IsScrolling */,
 			);
 			productName = Demo;
 			productReference = 7625788A28C8861300D2F2C9 /* Demo.app */;
@@ -398,7 +398,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		762578A428C8867700D2F2C9 /* IsScrolling */ = {
+		7662DF3628CD893D004D2FC6 /* IsScrolling */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = IsScrolling;
 		};

@@ -22,13 +22,13 @@ public extension View {
         }
     }
 
-    func scrollSensor(_ axis: Axis = .vertical) -> some View {
+    func scrollSensor() -> some View {
         overlay(
             GeometryReader { proxy in
                 Color.clear
                     .preference(
                         key: MinValueKey.self,
-                        value: axis == .vertical ? proxy.frame(in: .global).minY : proxy.frame(in: .global).minX
+                        value: .init(x: proxy.frame(in: .global).minX, y: proxy.frame(in: .global).minY)
                     )
             }
         )

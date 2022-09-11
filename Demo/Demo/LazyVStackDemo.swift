@@ -43,7 +43,7 @@ struct LazyVStackCommonDemo: View {
                 LazyVStack {
                     ForEach(0..<100) { i in
                         CellView(index: i)
-                            .scrollSensor(.vertical) // Need to add sensor for each subview
+                            .scrollSensor() // Need to add sensor for each subview
                     }
                 }
             }

@@ -45,7 +45,7 @@ struct VStackCommonDemo: View {
                         CellView(index: i)
                     }
                 }
-                .scrollSensor(.vertical) // only need one sensor for whole content in ScrollView
+                .scrollSensor() // only need one sensor for whole content in ScrollView
             }
             .scrollStatusMonitor($isScrolling, monitorMode: .common)
             .safeAreaInset(edge: .bottom) {

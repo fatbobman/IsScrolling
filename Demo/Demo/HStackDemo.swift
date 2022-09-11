@@ -43,7 +43,7 @@ struct HStackCommonDemo: View {
                         HCellView(index: i)
                     }
                 }
-                .scrollSensor(.horizontal) // change axis to horizontal
+                .scrollSensor() // change axis to horizontal
             }
             .scrollStatusMonitor($isScrolling, monitorMode: .common)
 
