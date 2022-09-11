@@ -77,7 +77,8 @@ For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/m
 No matter which monitoring mode IsScrolling provides, it cannot be 100% accurate. After all, IsScrolling inferred the current scrolling state of a scrollable component from certain external phenomena. Known issues are.
 
 * When the scrolling content is at the top or bottom of the container and in a bouncy state, clicking on it to stop scrolling and then releasing it may result in a perturbation of the scrolling state (the state changes rapidly once,This situation also exists even with UIScrollViewDelegate)
-* When the content of a scrollable component has a non-scrolling change in size or position (e.g. a view in a list has an animated change in size), IsScrolling may mistakenly determine that scrolling has occurred, but the state will revert to the end of scrolling as soon as the change in the view is over
+* When the content in the scrollable component changes in size or position that is not caused by scrolling (for example, the size of a view in a List is animatedly changed), IsScrolling may mistakenly judge that scrolling has occurred in common mode, but in the view After the change is over, the state will immediately return to the end of the scroll
+* After the scrolling starts (the status has changed to scrolling ), stop scrolling, but the finger is still in the pressed state, the common mode will regard this as the end of the scrolling, and the exclusion mode will still keep the scrolling state until the finger ends pressing
 
 ## Requirements
 
