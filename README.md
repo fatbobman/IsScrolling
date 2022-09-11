@@ -72,7 +72,7 @@ For combinations like ScrollView + VStack (HStack), just add one scrollSensor to
 
 For details, please check [Demo](https://github.com/fatbobman/IsScrolling/tree/main/Demo)
 
-## Limitations and shortcomings
+## Limitations and Shortcomings
 
 No matter which monitoring mode IsScrolling provides, it cannot be 100% accurate. After all, IsScrolling inferred the current scrolling state of a scrollable component from certain external phenomena. Known issues are.
 
