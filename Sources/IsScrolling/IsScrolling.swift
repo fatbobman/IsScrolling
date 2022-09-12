@@ -28,7 +28,7 @@ public extension View {
                 Color.clear
                     .preference(
                         key: MinValueKey.self,
-                        value: .init(x: proxy.frame(in: .global).minX, y: proxy.frame(in: .global).minY)
+                        value: proxy.frame(in: .global)
                     )
             }
         )

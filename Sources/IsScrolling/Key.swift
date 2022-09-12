@@ -20,8 +20,8 @@ public extension EnvironmentValues {
 }
 
 public struct MinValueKey: PreferenceKey {
-    public static var defaultValue: CGPoint = .zero
-    public static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
+    public static var defaultValue: CGRect = .zero
+    public static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
         value = nextValue()
     }
 }
