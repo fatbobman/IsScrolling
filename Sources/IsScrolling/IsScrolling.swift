@@ -45,8 +45,11 @@ struct ScrollStatusMonitorExclusionModifier: ViewModifier {
             .onChange(of: store.isScrolling) { value in
                 isScrolling = value
             }
+            .onAppear {
+                store.startObserving()
+            }
             .onDisappear {
-                store.cancellable = nil
+                store.stopObserving()
             }
     }
 }
@@ -69,6 +72,10 @@ final class ExclusionStore: ObservableObject {
     var cancellable: AnyCancellable?
 
     init() {
+        startObserving()
+    }
+    
+    func startObserving() {
         cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { output in
@@ -80,6 +87,10 @@ final class ExclusionStore: ObservableObject {
                     self.isScrolling = false
                 }
             })
+    }
+    
+    func stopObserving() {
+        cancellable = nil
     }
 }
 #endif
@@ -96,8 +107,11 @@ struct ScrollStatusMonitorCommonModifier: ViewModifier {
             .onPreferenceChange(MinValueKey.self) { _ in
                 store.preferencePublisher.send(1)
             }
+            .onAppear {
+                store.startObserving()
+            }
             .onDisappear {
-                store.cancellable = nil
+                store.stopObserving()
             }
     }
 }
@@ -130,6 +144,10 @@ final class CommonStore: ObservableObject {
     var cancellable: AnyCancellable?
 
     init() {
+        startObserving()
+    }
+    
+    func startObserving() {
         cancellable = publisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { output in
@@ -141,6 +159,10 @@ final class CommonStore: ObservableObject {
                     self.isScrolling = false
                 }
             })
+    }
+    
+    func stopObserving() {
+        cancellable = nil
     }
 }
 
